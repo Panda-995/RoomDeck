@@ -1,0 +1,13 @@
+.tools/
+.local/
+data/
+web/node_modules/
+web/dist/
+dist/
+*.exe
+*.log
+playwright-report/
+test-results/
+.env
+.env.*.local
+deploy/turn-certs/*.pem

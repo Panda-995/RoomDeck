@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RoomDeck · 新版界面预览</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f6f7f4;color:#263b33;font:15px/1.7 "Segoe UI","Microsoft YaHei",sans-serif}main{max-width:1320px;margin:auto;padding:40px 24px}header{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:28px}h1{font-size:28px;letter-spacing:-.03em;margin:0}p{margin:8px 0;color:#5d6b64}nav{display:flex;gap:8px;flex-wrap:wrap;padding:16px 0 24px}button,select,a{font:inherit;color:inherit}button,select{min-height:44px;border:1px solid #dde4dc;border-radius:10px;background:white;padding:10px 16px;cursor:pointer}button[aria-pressed=true]{background:#30664d;color:white;border-color:#30664d}button:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid #30664d;outline-offset:3px}label{display:flex;align-items:center;gap:12px}figure{margin:0}figure>div{display:flex;justify-content:center;align-items:flex-start;padding:20px;background:#edf1ec;border-radius:14px;min-height:300px}img{max-width:100%;height:auto;display:block}img.mobile{max-width:min(390px,100%)}figcaption{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin:16px 0;color:#5d6b64;font-size:13px}a{color:#30664d;text-underline-offset:4px}footer{padding:24px 0;border-top:1px solid #dde4dc;font-size:13px;color:#5d6b64}@media(max-width:600px){main{padding:24px 16px}h1{font-size:25px}figure>div{padding:8px}label{width:100%;justify-content:space-between}}
+</style>
+</head>
+<body><main>
+<header><div><h1>RoomDeck，新版界面</h1><p>暖白与深绿，清楚的层次，留一点相聚的温度。</p></div><label>查看版本<select id="version"><option value="after">新版</option><option value="before">改版前</option></select></label></header>
+<nav aria-label="选择预览页面" id="pages"></nav>
+<figure><div><img id="preview" alt=""></div><figcaption><span id="caption" role="status"></span><a id="original" target="_blank" rel="noopener">查看完整图片</a></figcaption></figure>
+<footer>真实浏览器截图 · 中英双语 · 桌面与手机布局<br>截图使用独立测试房间与示例照片。<a href="ui-motion.html">观看动效录屏</a> · <a href="UI-UX-AUDIT.md">查看检查记录</a></footer>
+</main><script>
+const pages=[['host','主持人'],['home','我的房间'],['guest','手机参与'],['games-mobile','手机游戏'],['screen-mobile','手机投屏'],['share','分享'],['settings','设置'],['invite','邀请'],['login','登录'],['join-mobile','手机加入'],['host-en','英文界面'],['host-tablet','平板']];
+let selected='host';const version=document.querySelector('#version'),preview=document.querySelector('#preview');
+function render(){const title=pages.find(p=>p[0]===selected)[1];const src='screenshots/ui-'+version.value+'/'+selected+'.png';preview.src=src;preview.alt=title+' · '+(version.value==='after'?'新版':'改版前');preview.className=selected.includes('mobile')||selected==='guest'?'mobile':'';document.querySelector('#caption').textContent=preview.alt;document.querySelector('#original').href=src;document.querySelectorAll('nav button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.page===selected)));}
+for(const [id,title] of pages){const b=document.createElement('button');b.textContent=title;b.dataset.page=id;b.onclick=()=>{selected=id;render()};document.querySelector('#pages').append(b)}version.onchange=render;render();
+</script></body></html>

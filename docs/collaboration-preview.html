@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RoomDeck · 画板与协同主持</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f6f7f2;color:#253c30;font:15px/1.6 'Segoe UI','Microsoft YaHei',sans-serif}main{max-width:1320px;margin:auto;padding:32px}h1{font-size:28px;margin:0 0 8px}p{color:#5b6a5d;margin:0 0 24px}nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}button{font:inherit;min-height:44px;background:white;border:1px solid #d9e2d7;border-radius:10px;padding:9px 16px;color:inherit;cursor:pointer}button[aria-pressed=true]{background:#30664d;color:white}button:focus-visible{outline:2px solid #30664d;outline-offset:3px}figure{margin:0}img{display:block;max-width:100%;max-height:80vh;margin:auto;object-fit:contain;border-radius:16px;box-shadow:0 12px 30px #223c3014}figcaption{text-align:center;padding:14px;color:#5b6a5d}@media(max-width:600px){main{padding:20px}h1{font-size:24px}}
+</style>
+<main><h1>画板与协同主持</h1><p>实际应用截图 · 共同画板、你画我猜、大屏观看与分项授权。</p>
+<nav aria-label="预览界面"><button aria-pressed="true" data-file="board-display.png">大屏画板</button><button aria-pressed="false" data-file="board-host.png">作画界面</button><button aria-pressed="false" data-file="board-mobile.png">手机猜题</button><button aria-pressed="false" data-file="board-permissions.png">协同权限</button></nav>
+<figure><img id="preview" src="screenshots/collaboration/board-display.png" alt="大屏画板"><figcaption id="caption">大屏画板</figcaption></figure></main>
+<script>document.querySelectorAll('nav button').forEach(button=>button.addEventListener('click',()=>{document.querySelectorAll('nav button').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));const img=document.getElementById('preview');img.src='screenshots/collaboration/'+button.dataset.file;img.alt=button.textContent;document.getElementById('caption').textContent=button.textContent}));</script>
+</html>

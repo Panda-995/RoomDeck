@@ -1,0 +1,3 @@
+{$ROOMDECK_DOMAIN} {
+    reverse_proxy roomdeck:8080
+}

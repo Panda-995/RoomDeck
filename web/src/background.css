@@ -1,0 +1,63 @@
+/* Quiet paper planes, painted behind the app rather than over its controls. */
+#app {
+  min-height: 100dvh;
+  isolation: isolate;
+}
+.room-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  user-select: none;
+  overflow: hidden;
+  background: #f7f8f5;
+}
+.room-backdrop::before,
+.room-backdrop::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  border: 1px solid #dce4d5;
+  border-radius: 64px;
+  transform: rotate(-24deg);
+}
+.room-backdrop::before {
+  width: 660px;
+  height: 620px;
+  right: -220px;
+  top: -290px;
+  background: #edf1e7;
+  box-shadow:
+    -28px 24px 0 0 #f2f5ed,
+    -29px 25px 0 0 #e3e9dc;
+}
+.room-backdrop::after {
+  width: 480px;
+  height: 380px;
+  left: -270px;
+  bottom: -240px;
+  border-color: #e9e3d7;
+  background: #f3efe5;
+  box-shadow:
+    30px -20px 0 0 #f7f4ed,
+    31px -21px 0 0 #ece7dd;
+  transform: rotate(22deg);
+}
+@media (max-width: 900px) {
+  .room-backdrop::before {
+    width: 420px;
+    height: 430px;
+    right: -260px;
+    top: -210px;
+    border-radius: 44px;
+  }
+  .room-backdrop::after {
+    left: -355px;
+    bottom: -280px;
+  }
+}
+@media (forced-colors: active) {
+  .room-backdrop {
+    display: none;
+  }
+}

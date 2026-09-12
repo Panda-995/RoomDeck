@@ -1,0 +1,8 @@
+# Optional source build: docker compose -f compose.yaml -f compose.build.yaml up -d --build
+services:
+  roomdeck:
+    image: roomdeck:local
+    build: .
+  media-init:
+    image: roomdeck:local
+    build: .

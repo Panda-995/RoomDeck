@@ -1,0 +1,60 @@
+{
+  "reports": [
+    {
+      "route": "host",
+      "images": true,
+      "overflow": false
+    },
+    {
+      "route": "join",
+      "images": true,
+      "overflow": false
+    },
+    {
+      "route": "guest",
+      "images": true,
+      "overflow": false
+    },
+    {
+      "route": "display",
+      "images": true,
+      "overflow": false
+    },
+    {
+      "route": "poll",
+      "images": true,
+      "overflow": false
+    },
+    {
+      "route": "end",
+      "images": true,
+      "overflow": false
+    },
+    {
+      "mobile": 320,
+      "overflow": false
+    },
+    {
+      "mobile": 390,
+      "overflow": false
+    },
+    {
+      "mobile": 768,
+      "overflow": false
+    }
+  ],
+  "errors": [],
+  "interactions": [
+    "昵称进入",
+    "便签发布并显示",
+    "投票状态更新",
+    "黑屏不显示二维码与照片",
+    "结束确认进入回顾"
+  ],
+  "contrast": {
+    "--ink": 16.814481290022094,
+    "--muted": 6.54745445326628,
+    "--primary": 5.624559859005957
+  },
+  "blackScreenHasQr": 0
+}

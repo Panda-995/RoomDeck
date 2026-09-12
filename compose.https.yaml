@@ -1,0 +1,16 @@
+services:
+  https:
+    image: caddy:2.10.2-alpine
+    ports:
+      - "${ROOMDECK_WEB_BIND_IP:-0.0.0.0}:80:80"
+      - "${ROOMDECK_WEB_BIND_IP:-0.0.0.0}:443:443"
+    environment:
+      ROOMDECK_DOMAIN: ${ROOMDECK_DOMAIN:?Set ROOMDECK_DOMAIN to your public DNS name}
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - roomdeck-caddy-data:/data
+      - roomdeck-caddy-config:/config
+    restart: unless-stopped
+volumes:
+  roomdeck-caddy-data:
+  roomdeck-caddy-config:

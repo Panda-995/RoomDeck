@@ -1,0 +1,14 @@
+.git
+.tools
+.local
+data
+dist
+web/node_modules
+web/dist
+prototype
+previews
+*.zip
+*.log
+test-results
+playwright-report
+docs

@@ -1,0 +1,500 @@
+/* One control vocabulary across settings, host tools and guest screens. */
+button,
+.button {
+  border-radius: 11px;
+}
+input:not([type="checkbox"]),
+textarea {
+  border-radius: 11px;
+  transition:
+    border-color 160ms,
+    box-shadow 160ms;
+}
+input:not([type="checkbox"]):hover,
+textarea:hover {
+  border-color: #aabbb0;
+}
+input[type="checkbox"],
+input[type="radio"] {
+  accent-color: var(--primary);
+}
+.select-field {
+  position: relative;
+  display: inline-flex;
+  vertical-align: middle;
+  min-width: 0;
+  max-width: 100%;
+  width: 100%;
+  color: var(--ink);
+}
+.select-field > select.select-native {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 1;
+}
+.select-face {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 42px 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: white;
+  font-size: 14px;
+  font-weight: 550;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+  transition:
+    border-color 160ms,
+    box-shadow 160ms,
+    background 160ms;
+}
+.select-face::after {
+  content: "";
+  position: absolute;
+  right: 17px;
+  width: 7px;
+  height: 7px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform 160ms;
+}
+.select-field:hover .select-face {
+  border-color: #9caf9f;
+  background: #fafcf9;
+}
+.select-field.is-open .select-face {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px #30664d12;
+}
+.select-field.is-open .select-face::after {
+  transform: translateY(2px) rotate(225deg);
+}
+.select-field:has(select:focus-visible) .select-face {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}
+.select-field.is-disabled {
+  opacity: 0.5;
+}
+.select-field.is-disabled select {
+  cursor: not-allowed;
+}
+.language-control .select-field {
+  width: auto;
+  min-width: 120px;
+}
+.language-control .select-face {
+  background: transparent;
+  border-color: transparent;
+  font-size: 13px;
+}
+.inline-label .select-field {
+  width: 88px;
+  flex-shrink: 0;
+}
+.inline-label .select-field > select.select-native {
+  width: 100%;
+}
+.select-menu {
+  position: fixed;
+  inset: auto;
+  margin: 0;
+  padding: 6px;
+  background: #fff;
+  color: var(--ink);
+  border: 1px solid #dce5dd;
+  border-radius: 14px;
+  box-shadow:
+    0 16px 40px #162c2524,
+    0 3px 8px #162c250a;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  font:
+    500 14px/1.5 Inter,
+    "Segoe UI",
+    "Microsoft YaHei",
+    sans-serif;
+}
+.select-menu:popover-open {
+  animation: select-in 150ms ease-out;
+}
+.select-option {
+  position: relative;
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  padding: 10px 34px 10px 12px;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+.select-option:hover,
+.select-option.is-active {
+  background: #f0f4ef;
+}
+.select-option[aria-selected="true"] {
+  background: #e6efe6;
+  color: #24523c;
+  font-weight: 650;
+}
+.select-option[aria-selected="true"]::after {
+  content: "";
+  position: absolute;
+  right: 14px;
+  width: 5px;
+  height: 9px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+}
+.select-option[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+@keyframes select-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.dark-header .select-face {
+  color: #e4eee7;
+}
+.dark-header .select-field:hover .select-face,
+.dark-header .select-field.is-open .select-face {
+  background: #294438;
+}
+
+/* A quiet theatre: edge lighting, an opaque stage and a paper invitation. */
+.dark-header {
+  background: #132b23;
+  border-color: #ffffff12;
+}
+.display-view {
+  position: relative;
+  isolation: isolate;
+  background: #132b23;
+  padding: 22px 36px;
+  gap: 0;
+}
+.display-view::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 2% 100%, #335b4155, transparent 55%),
+    radial-gradient(ellipse at 100% 0%, #6a826033, transparent 45%);
+}
+.display-view::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  width: 42vw;
+  height: 42vw;
+  right: 4%;
+  top: 5%;
+  border: 1px solid #b3c99f12;
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 56px #b3c99f06,
+    0 0 0 112px #b3c99f04;
+  clip-path: inset(-112px 0 -112px -112px);
+}
+.display-topline {
+  font-size: 14px;
+  letter-spacing: 0.025em;
+  color: #bdcec3;
+  flex-shrink: 0;
+}
+.display-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: #c9dfbf;
+}
+.display-live::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.display-content {
+  grid-template-columns: minmax(0, 1fr) clamp(210px, 20vw, 300px);
+  gap: 24px;
+  margin: 20px 0;
+  min-height: 0;
+  align-items: stretch;
+}
+.display-canvas {
+  border: 1px solid #bed3bf22;
+  border-radius: 24px;
+  background: #19352d;
+  box-shadow: 0 18px 50px #07150f20;
+  padding: 24px;
+  min-height: 0;
+  overflow: auto;
+}
+.display-invitation {
+  align-self: center;
+  padding: 24px;
+  border-radius: 22px;
+  background: #f2f3e9;
+  color: #243c2f;
+  text-align: center;
+  box-shadow: 0 12px 36px #07150f24;
+}
+.display-invitation h2 {
+  font-size: clamp(20px, 2vw, 30px);
+  line-height: 1.35;
+}
+.display-invitation p {
+  color: #526449;
+  font-size: 17px;
+  margin: 16px 0;
+}
+.display-invitation .display-qr {
+  width: 100%;
+  max-width: 250px;
+  height: auto;
+  margin: auto;
+  border: 1px solid #dfe5d8;
+  border-radius: 12px;
+}
+.display-invitation .room-code {
+  font-size: clamp(24px, 2.5vw, 36px);
+  margin-top: 18px;
+  letter-spacing: 0.12em;
+  font-variant-numeric: tabular-nums;
+}
+.display-invitation small {
+  color: #59694f;
+  font-size: 13px;
+}
+.display-empty {
+  min-height: 100%;
+  gap: 20px;
+  padding: 36px;
+}
+.display-empty h1 {
+  font-size: clamp(32px, 5.2vw, 76px);
+  max-width: 15em;
+  line-height: 1.2;
+  letter-spacing: -0.035em;
+}
+.display-empty p {
+  color: #bbcfc0;
+  font-size: clamp(18px, 1.8vw, 27px);
+}
+.display-empty svg {
+  color: #becf9c;
+}
+.display-welcome-mark {
+  display: grid;
+  place-items: center;
+  width: 76px;
+  height: 76px;
+  margin-bottom: 8px;
+  border-radius: 23px;
+  background: #2c4937;
+  border: 1px solid #c2d49b35;
+  transform: rotate(-6deg);
+}
+.display-welcome-mark svg {
+  transform: rotate(6deg);
+}
+.display-note,
+.display-poll {
+  padding: 8px;
+}
+.display-note > span,
+.display-poll > span {
+  display: inline-block;
+  color: #c7d6a6;
+  font-size: 15px;
+  letter-spacing: 0.07em;
+}
+.display-note h1,
+.display-poll h1 {
+  font-size: clamp(26px, 3.2vw, 48px);
+  line-height: 1.3;
+  margin: 18px 0 28px;
+  overflow-wrap: anywhere;
+}
+.display-note p {
+  font-size: clamp(20px, 2.4vw, 34px);
+  color: #e1e9df;
+}
+.display-poll-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.display-poll-option {
+  background: #244237;
+  border: 1px solid #c3d9c51c;
+  border-radius: 14px;
+  padding: 18px;
+  margin: 0;
+  font-size: clamp(17px, 2vw, 28px);
+}
+.display-poll-option .row > span {
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+.display-poll-option strong {
+  color: #d2e0ae;
+  font-variant-numeric: tabular-nums;
+}
+.display-poll-option .poll-bar {
+  height: 6px;
+  background: #102d24;
+  margin-top: 14px;
+}
+.display-poll-option .poll-bar > span {
+  background: #bfd29a;
+}
+.display-poll > p {
+  font-size: 16px;
+  margin-top: 22px;
+  color: #bacebd;
+}
+.display-photo {
+  height: 100%;
+  max-height: calc(100dvh - 260px);
+  background: #10271f;
+  border-radius: 14px;
+}
+.display-canvas:has(.display-photo) {
+  display: flex;
+  flex-direction: column;
+}
+.display-caption {
+  margin-top: 14px;
+  font-size: 16px;
+  color: #c8d6cb;
+  flex-shrink: 0;
+}
+.display-footer {
+  border-color: #bdd1bc24;
+  padding-top: 12px;
+  font-size: 13px;
+  color: #b4c8b9;
+  flex-shrink: 0;
+}
+.display-footer button {
+  border-color: #bdd1bc35;
+  color: #d8e4d7;
+  font-size: 13px;
+}
+.display-footer button:hover {
+  background: #294438;
+}
+.display-danmaku {
+  border-color: #bdd1bc24;
+}
+.display-view:has(.blank-screen)::before,
+.display-view:has(.blank-screen)::after {
+  display: none;
+}
+@media (min-width: 900px) and (min-height: 600px) {
+  .display-canvas:has(.display-photo) .display-photo {
+    flex: 1 1 0;
+    min-height: 0;
+    height: 0;
+    max-height: none;
+  }
+  .display-view,
+  .display-view:has(.display-poll) {
+    height: calc(100dvh - 72px);
+    min-height: 0;
+    padding: 18px 32px;
+  }
+  .display-view:has(.display-poll) .display-content {
+    margin: 16px 0;
+    grid-template-columns: minmax(0, 1fr) clamp(210px, 20vw, 300px);
+    gap: 24px;
+  }
+  .display-view:has(.display-poll) .display-canvas {
+    height: auto;
+  }
+  .display-view:has(.display-poll) .display-invitation {
+    padding: 22px;
+  }
+  .display-view:has(.display-poll) .display-qr {
+    width: 100%;
+    max-width: min(250px, 26vh);
+  }
+  .display-view:has(.display-poll) .display-poll {
+    padding: 0;
+  }
+  .display-view:has(.display-poll) .display-poll-options {
+    gap: 12px;
+    align-content: center;
+  }
+  .display-view:has(.display-poll) .display-poll-option {
+    margin: 0;
+  }
+  .display-view:has(.display-poll) .display-poll h1 {
+    margin: 14px 0 22px;
+  }
+  .display-view:has(.display-poll) .display-invitation h2 {
+    font-size: clamp(20px, 2vw, 30px);
+  }
+}
+@media (max-width: 899px) {
+  .display-view {
+    padding: 20px;
+  }
+  .display-content {
+    grid-template-columns: 1fr;
+  }
+  .display-invitation {
+    width: min(100%, 360px);
+    justify-self: center;
+  }
+  .display-empty {
+    min-height: 300px;
+    padding: 24px 8px;
+  }
+  .display-poll-options {
+    grid-template-columns: 1fr;
+  }
+  .display-photo {
+    min-height: 240px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .select-menu:popover-open {
+    animation: none;
+  }
+  .select-face,
+  .select-face::after {
+    transition: none;
+  }
+}
+@media (forced-colors: active) {
+  .select-face,
+  .select-menu,
+  .select-option[aria-selected="true"] {
+    border: 1px solid ButtonText;
+  }
+  .select-field:has(select:focus-visible) .select-face {
+    outline-color: Highlight;
+  }
+}

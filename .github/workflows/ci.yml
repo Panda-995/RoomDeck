@@ -1,0 +1,119 @@
+name: Test and publish multi-platform images
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: containers-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  native:
+    name: Verify ${{ matrix.arch }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: amd64
+            runner: ubuntu-24.04
+          - arch: arm64
+            runner: ubuntu-24.04-arm
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 35
+    permissions:
+      contents: read
+      packages: write
+    env:
+      ROOMDECK_IMAGE: roomdeck:verify
+      ROOMDECK_MEDIA_IP: 127.0.0.1
+      ROOMDECK_TEST_URL: http://127.0.0.1:8080
+      ROOMDECK_MEDIA_TEST: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.27.1'
+          cache: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.22.2'
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - run: go test -race ./... && go vet ./...
+      - run: npm ci && npm run build && npm run test:i18n
+        working-directory: web
+      - uses: docker/setup-buildx-action@v3
+      - name: Build native image for verification
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: linux/${{ matrix.arch }}
+          load: true
+          tags: roomdeck:verify
+          labels: |
+            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+            org.opencontainers.image.revision=${{ github.sha }}
+          cache-from: type=gha,scope=${{ matrix.arch }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.arch }}
+      - name: Start real Compose stack
+        run: |
+          docker compose config --quiet
+          docker compose up -d --wait --wait-timeout 120
+          python3 deploy/container-smoke.py init
+      - name: Browser regression against the native containers
+        working-directory: web
+        run: |
+          npx playwright install --with-deps chromium
+          npm run test:e2e
+      - name: Restart and verify persistent state
+        run: |
+          docker compose restart roomdeck
+          python3 deploy/container-smoke.py verify
+      - name: Publish the exact tested native image
+        if: github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          IMAGE="ghcr.io/${GITHUB_REPOSITORY,,}"
+          printf '%s' "$GH_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
+          docker tag roomdeck:verify "$IMAGE:sha-${GITHUB_SHA}-${{ matrix.arch }}"
+          docker push "$IMAGE:sha-${GITHUB_SHA}-${{ matrix.arch }}"
+          docker logout ghcr.io
+      - name: Preserve failure diagnostics
+        if: failure()
+        run: docker compose logs --no-color > .local/compose-test.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: verification-${{ matrix.arch }}
+          path: |
+            web/playwright-report/
+            web/test-results/
+            .local/compose-test.log
+          retention-days: 7
+      - run: docker compose down -v
+        if: always()
+  publish:
+    needs: native
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: docker/setup-buildx-action@v3
+      - name: Merge verified architectures
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          IMAGE="ghcr.io/${GITHUB_REPOSITORY,,}"
+          printf '%s' "$GH_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
+          TAGS=(-t "$IMAGE:sha-${GITHUB_SHA}")
+          if [[ "$GITHUB_REF" == refs/heads/main ]]; then TAGS+=(-t "$IMAGE:latest"); fi
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then TAGS+=(-t "$IMAGE:${GITHUB_REF_NAME}"); fi
+          docker buildx imagetools create "${TAGS[@]}" "$IMAGE:sha-${GITHUB_SHA}-amd64" "$IMAGE:sha-${GITHUB_SHA}-arm64"
+          docker buildx imagetools inspect "$IMAGE:sha-${GITHUB_SHA}"
+          docker logout ghcr.io

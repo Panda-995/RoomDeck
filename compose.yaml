@@ -1,0 +1,55 @@
+services:
+  roomdeck:
+    image: ${ROOMDECK_IMAGE:-ghcr.io/panda-995/roomdeck:latest}
+    ports:
+      - "8080:8080"
+    volumes:
+      - "${ROOMDECK_DATA_PATH:-roomdeck-data}:/data"
+      - roomdeck-media-config:/media-config:ro
+    entrypoint: ["/bin/sh", "-ec", "set -a; . /media-config/roomdeck.env; set +a; exec /app/roomdeck"]
+    depends_on:
+      media-init:
+        condition: service_completed_successfully
+    environment:
+      TZ: ${TZ:-Asia/Shanghai}
+      BASE_URL: ${BASE_URL:-}
+      LIVEKIT_INTERNAL_URL: http://livekit:7880
+    restart: unless-stopped
+    stop_grace_period: 30s
+    security_opt:
+      - no-new-privileges:true
+
+  media-init:
+    image: ${ROOMDECK_IMAGE:-ghcr.io/panda-995/roomdeck:latest}
+    user: "0:0"
+    entrypoint: ["/bin/sh", "/app/init-media.sh"]
+    healthcheck:
+      disable: true
+    volumes:
+      - roomdeck-media-config:/config
+      - ${ROOMDECK_TURN_CERTS:-./deploy/turn-certs}:/certs:ro
+    environment:
+      ROOMDECK_MEDIA_IP: ${ROOMDECK_MEDIA_IP:-}
+      ROOMDECK_TURN_DOMAIN: ${ROOMDECK_TURN_DOMAIN:-}
+    restart: "no"
+
+  livekit:
+    image: livekit/livekit-server:v1.13.6
+    command: ["--config", "/config/livekit.yaml"]
+    depends_on:
+      media-init:
+        condition: service_completed_successfully
+    volumes:
+      - roomdeck-media-config:/config:ro
+      - ${ROOMDECK_TURN_CERTS:-./deploy/turn-certs}:/certs:ro
+    ports:
+      - "7881:7881/tcp"
+      - "7882:7882/udp"
+      - "3478:3478/udp"
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  roomdeck-data:
+  roomdeck-media-config:

@@ -1,0 +1,191 @@
+.interaction-panel {
+  margin: 12px 0 20px;
+  padding: 12px 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+}
+.interaction-panel summary {
+  cursor: pointer;
+  min-height: 32px;
+  display: list-item;
+  font-weight: 600;
+}
+.interaction-panel form,
+.interaction-settings {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 12px;
+  margin: 12px 0;
+}
+.interaction-panel label {
+  display: grid;
+  gap: 6px;
+  flex: 1 1 180px;
+  min-width: 0;
+}
+.interaction-panel input:not([type="checkbox"]),
+.interaction-panel select {
+  width: 100%;
+}
+.interaction-panel label.row {
+  display: flex;
+  align-items: center;
+}
+.danmaku-list,
+.queue-list {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0;
+}
+.danmaku-list li,
+.queue-list li {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-top: 1px solid var(--line);
+  overflow-wrap: anywhere;
+}
+.screen-queue {
+  margin-bottom: 20px;
+}
+.screen-queue label {
+  display: grid;
+  gap: 8px;
+  max-width: 360px;
+}
+.display-poll-picker {
+  display: grid;
+  gap: 8px;
+  margin: 16px 0 12px;
+}
+.display-poll-picker select {
+  width: 100%;
+  min-width: 0;
+}
+.display-source-button {
+  width: 100%;
+  margin: 0 0 12px;
+}
+.upload-task-entry {
+  margin-bottom: 16px;
+}
+.reaction-bar {
+  display: flex;
+  position: relative;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 8px 16px 12px;
+  background: white;
+  border-top: 1px solid var(--line);
+}
+.reaction-bar button {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 6px 10px;
+  font-size: 14px;
+}
+.reaction-bar button[aria-pressed="true"] {
+  background: #e8f0e8;
+  border-color: #30664d;
+}
+.reaction-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  flex-basis: 100%;
+}
+.reaction-picker button {
+  font-size: 21px;
+}
+.upload-list li {
+  flex-wrap: wrap;
+}
+.upload-list li > div {
+  flex: 1 1 160px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.upload-list progress {
+  max-width: 100%;
+  accent-color: #30664d;
+}
+.display-danmaku {
+  height: 100px;
+  flex: 0 0 100px;
+  overflow: hidden;
+  pointer-events: none;
+  border-top: 1px solid #52655a;
+  margin-bottom: 12px;
+}
+.danmaku-line {
+  height: 48px;
+  overflow: hidden;
+  font-size: 24px;
+  white-space: nowrap;
+}
+.danmaku-line span {
+  display: inline-block;
+  padding-inline-start: 100%;
+  animation: danmaku-pass 8s linear forwards;
+}
+@keyframes danmaku-pass {
+  to {
+    transform: translateX(-100%);
+  }
+}
+.display-danmaku.stationary .danmaku-line {
+  white-space: normal;
+  height: auto;
+  font-size: 18px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.display-danmaku.stationary .danmaku-line span {
+  padding: 0;
+  animation: none;
+}
+.display-view:has(.display-danmaku) .display-photo {
+  height: 45vh;
+}
+@media (prefers-reduced-motion: reduce) {
+  .danmaku-line span {
+    padding: 0;
+    animation: none;
+  }
+  .danmaku-line {
+    white-space: normal;
+    font-size: 18px;
+    overflow-wrap: anywhere;
+  }
+}
+@media (max-width: 640px) {
+  .reaction-bar {
+    padding: 8px 12px;
+  }
+  .interaction-panel {
+    padding: 12px;
+  }
+}
+/* Keep the poll and joining code inside a landscape TV viewport. */
+@media (min-width: 900px) and (min-height: 600px) {
+ .display-view:has(.display-poll) { height: calc(100dvh - 72px); min-height: 0; padding: 16px 32px; }
+ .display-view:has(.display-poll) .display-content { min-height: 0; margin: 12px 0; grid-template-columns: minmax(0,1fr) 220px; gap: 24px; }
+ .display-view:has(.display-poll) .display-invitation h2 { font-size: clamp(20px,2vw,30px); line-height: 1.25; }
+ .display-view:has(.display-poll) .display-invitation p { margin: 8px 0; font-size: 18px; }
+ .display-view:has(.display-poll) .display-qr { width: min(200px,24vh); height: auto; }
+ .display-view:has(.display-poll) .room-code { font-size: 24px; margin-top: 8px; }
+ .display-view:has(.display-poll) .display-footer { padding-top: 8px; font-size: 15px; }
+ .display-view:has(.display-poll) .display-canvas { min-height: 0; height: 100%; }
+ .display-poll { height: 100%; display: flex; flex-direction: column; padding: 8px 0; }
+ .display-poll h1 { font-size: clamp(24px,3vw,42px); line-height: 1.3; margin: 12px 0; overflow-wrap: anywhere; }
+ .display-poll-options { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px 24px; flex: 1; align-content: center; min-height: 0; }
+ .display-poll-option { font-size: clamp(16px,2vw,26px); margin: 0; overflow-wrap: anywhere; }
+ .display-poll > p { font-size: 17px; margin-top: 12px; }
+ .display-view:has(.display-poll) .display-danmaku { height: 56px; flex-basis: 56px; margin: 4px 0; }
+ .display-view:has(.display-poll) .display-danmaku .danmaku-line { font-size: 16px; }
+}

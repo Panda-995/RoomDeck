@@ -1,0 +1,8 @@
+# For restrictive networks: use a dedicated IP for TURN 443, separate from Web HTTPS.
+services:
+  livekit:
+    ports:
+      - "${ROOMDECK_TURN_BIND_IP:?Set a dedicated TURN bind IP}:443:443/tcp"
+  media-init:
+    environment:
+      ROOMDECK_TURN_DOMAIN: ${ROOMDECK_TURN_DOMAIN:?Set TURN DNS name and provide its certificate}
