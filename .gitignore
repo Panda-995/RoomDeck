@@ -11,3 +11,6 @@ test-results/
 .env
 .env.*.local
 deploy/turn-certs/*.pem
+
+__pycache__/
+*.pyc

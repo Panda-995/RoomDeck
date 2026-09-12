@@ -59,7 +59,16 @@ export const prettySelect: ObjectDirective<HTMLSelectElement> = {
         el.classList.toggle("is-active", i === active),
       );
       select.setAttribute("aria-activedescendant", `${menu.id}-${active}`);
-      menu.children[active]?.scrollIntoView({ block: "nearest" });
+      // Scroll only the listbox. scrollIntoView also moves the enclosing modal,
+      // which can close a newly opened popover through our outside-scroll handler.
+      const item = menu.children[active] as HTMLElement | undefined;
+      if (item) {
+        const top = item.offsetTop;
+        const bottom = top + item.offsetHeight;
+        if (top < menu.scrollTop) menu.scrollTop = top;
+        else if (bottom > menu.scrollTop + menu.clientHeight)
+          menu.scrollTop = bottom - menu.clientHeight;
+      }
     }
     function sync() {
       if (!explicitLabel) {
@@ -190,7 +199,9 @@ export const prettySelect: ObjectDirective<HTMLSelectElement> = {
         close();
     }
     function scroll(e: Event) {
-      if (open && !menu.contains(e.target as Node)) close();
+      // Browsers may dispatch a deferred modal scroll while opening a popover.
+      // Keep the list anchored instead of treating that event as dismissal.
+      if (open && !menu.contains(e.target as Node)) position();
     }
     select.addEventListener("mousedown", pointer);
     select.addEventListener("click", (e) => e.preventDefault());

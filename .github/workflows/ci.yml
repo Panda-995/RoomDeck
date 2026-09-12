@@ -84,7 +84,7 @@ jobs:
           docker logout ghcr.io
       - name: Preserve failure diagnostics
         if: failure()
-        run: docker compose logs --no-color > .local/compose-test.log
+        run: mkdir -p .local && docker compose logs --no-color > .local/compose-test.log
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -104,6 +104,7 @@ jobs:
       contents: read
       packages: write
     steps:
+      - uses: actions/checkout@v4
       - uses: docker/setup-buildx-action@v3
       - name: Merge verified architectures
         env:
@@ -117,3 +118,5 @@ jobs:
           docker buildx imagetools create "${TAGS[@]}" "$IMAGE:sha-${GITHUB_SHA}-amd64" "$IMAGE:sha-${GITHUB_SHA}-arm64"
           docker buildx imagetools inspect "$IMAGE:sha-${GITHUB_SHA}"
           docker logout ghcr.io
+      - name: Verify anonymous access to both architectures
+        run: python3 deploy/verify-image.py "ghcr.io/${GITHUB_REPOSITORY,,}:sha-${GITHUB_SHA}"
