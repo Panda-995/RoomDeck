@@ -588,7 +588,7 @@ async function member(idMember: string, revoked: boolean, muted: boolean) {
                 {{
                   t(
                     m === "photos"
-                      ? "module.photo"
+                      ? "room.photos"
                       : m === "poll"
                         ? "module.poll"
                         : "room." + m,

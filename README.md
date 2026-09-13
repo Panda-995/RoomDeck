@@ -1,5 +1,7 @@
 # RoomDeck
 
+[更新日志 / Changelog](CHANGELOG.md)
+
 **给现实中的一个房间，再开一个数字房间。**
 
 [English](README.en.md) · [部署](docs/DEPLOYMENT.md) · [开发与测试](docs/DEVELOPMENT.md) · [实现状态](docs/IMPLEMENTATION.md)

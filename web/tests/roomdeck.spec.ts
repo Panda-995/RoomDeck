@@ -12,10 +12,10 @@ test('bilingual multi-browser sharing, moderation, voting and export',async({bro
  const guestContext=await browser.newContext({baseURL,viewport:{width:390,height:844}});const guest=await guestContext.newPage();
  await guest.goto('/join?code='+snap.room.code);await guest.locator('#language').selectOption('zh');await expect(guest.getByRole('heading',{name:'Friday Together'})).toBeVisible();await guest.getByLabel('怎么称呼你？').fill('小林');await guest.getByRole('button',{name:'进入房间',exact:true}).click();await expect(guest.getByRole('button',{name:'分享内容'}).last()).toBeEnabled();
  await guest.getByRole('button',{name:'分享内容'}).last().click();await guest.getByRole('dialog').getByRole('button',{name:'照片',exact:true}).click();await guest.locator('input[type=file]').setInputFiles(path.resolve('../prototype/assets/friends.jpg'));await expect(guest.getByText('已分享',{exact:true})).toBeVisible({timeout:15000});await guest.getByRole('button',{name:'关闭',exact:true}).click();
- await expect(page.locator('.content-card.photo')).toHaveCount(1);await page.locator('.content-card.photo').getByRole('button',{name:'Show on display',exact:true}).click();
+ await expect(page.locator('.content-card.photo')).toHaveCount(1);await page.locator('.content-card.photo').getByRole('button',{name:'Add to display',exact:true}).click();
  const paired=await (await post(`/rooms/${roomID}/display-session`,{})).json();
  const displayContext=await browser.newContext({baseURL,viewport:{width:1600,height:1000}});const display=await displayContext.newPage();await display.goto('/display#pair='+paired.token);await display.locator('#language').selectOption('zh');await expect(display.locator('.display-invitation')).toBeVisible();
- await page.locator('.display-modes').getByRole('button',{name:'Photos',exact:true}).click();await expect(display.locator('.display-photo')).toBeVisible();
+ await page.locator('.display-modes').getByRole('button',{name:'Photo slideshow',exact:true}).click();await expect(display.locator('.display-photo')).toBeVisible();
  const frozenSource=await display.locator('.display-photo').getAttribute('src');
  await page.getByRole('button',{name:'Pause slideshow',exact:true}).click();
  const second=Math.floor(Date.now()/1000);await expect.poll(()=>Math.floor(Date.now()/1000)).toBeGreaterThan(second);

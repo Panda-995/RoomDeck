@@ -1,5 +1,7 @@
 # RoomDeck
 
+[更新日志 / Changelog](CHANGELOG.md)
+
 For a fresh NAS LAN installation, use [compose.nas.yaml](compose.nas.yaml) and set your NAS IP. See the [NAS guide](docs/NAS.md) for storage, HTTPS and migration details.
 
 **A shared space for people in the same room.**
