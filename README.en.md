@@ -1,5 +1,7 @@
 # RoomDeck
 
+For a fresh NAS LAN installation, use [compose.nas.yaml](compose.nas.yaml) and set your NAS IP. See the [NAS guide](docs/NAS.md) for storage, HTTPS and migration details.
+
 **A shared space for people in the same room.**
 
 [简体中文](README.md) · [Deployment](docs/DEPLOYMENT.md) · [Development](docs/DEVELOPMENT.md) · [Implementation status](docs/IMPLEMENTATION.md)
@@ -7,6 +9,8 @@
 Now includes reactions, moderated live messages, reconnection and resumable uploads, a screen-sharing queue, and explicit poll selection for the display. See the [feature notes and limits](docs/FEATURES-2026-09.md) and [UI previews](docs/features-preview.html). Compose services and volume mappings remain unchanged.
 
 Guests join a temporary shared space through a QR code or room code without an account. Share photos, files, notes and links; run polls; show selected content on a TV. Export the gathering and automatically remove content after its retention period.
+
+[NAS 部署包 / NAS deployment bundle](https://github.com/Panda-995/RoomDeck/releases/download/nas-deploy-20260913/RoomDeck-NAS.zip) · [SHA256](https://github.com/Panda-995/RoomDeck/releases/download/nas-deploy-20260913/RoomDeck-NAS-SHA256SUMS.txt)
 
 ## Docker quick start
 

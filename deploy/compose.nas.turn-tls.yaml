@@ -1,0 +1,13 @@
+# Optional NAS overlay for networks requiring TURN over TLS.
+# Use with the NAS base file; provide your domain, dedicated bind IP and certificates.
+services:
+  media-init:
+    environment:
+      ROOMDECK_TURN_DOMAIN: ${ROOMDECK_TURN_DOMAIN:?Set the TURN domain}
+    volumes:
+      - ${ROOMDECK_TURN_CERTS:?Set the certificate directory}:/certs:ro
+  livekit:
+    ports:
+      - "${ROOMDECK_TURN_BIND_IP:?Set a dedicated TURN bind IP}:443:443/tcp"
+    volumes:
+      - ${ROOMDECK_TURN_CERTS:?Set the certificate directory}:/certs:ro

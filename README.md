@@ -8,7 +8,11 @@
 
 RoomDeck 是自托管的现场临时共享空间。参与者扫码或输入房间码，无需账号即可分享照片、文件、便签和链接，并参与投票。主持人选择内容上屏，在手机或电脑上控制电视/投影，活动结束后导出内容并自动清理。
 
+[NAS 部署包 / NAS deployment bundle](https://github.com/Panda-995/RoomDeck/releases/download/nas-deploy-20260913/RoomDeck-NAS.zip) · [SHA256](https://github.com/Panda-995/RoomDeck/releases/download/nas-deploy-20260913/RoomDeck-NAS-SHA256SUMS.txt)
+
 ## Docker 启动
+
+NAS 新安装可使用 [NAS 专用配置](compose.nas.yaml)：只需填写 NAS 局域网 IP，无需 `.env` 或外部初始化脚本。服务说明、数据映射与已有部署切换方法见 [NAS 部署](docs/NAS.md)。
 
 下载本仓库的 `compose.yaml` 即可部署。镜像 `ghcr.io/panda-995/roomdeck:latest` 支持 Linux amd64 / arm64。
 
