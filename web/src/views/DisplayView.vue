@@ -283,7 +283,7 @@ async function fullscreen() {
               {{
                 room.settings.display_mode === "welcome"
                   ? room.name
-                  : t("room.displayWaiting")
+                  : t(room.settings.display_mode === "pinned" ? "room.notesWaiting" : "room.displayWaiting")
               }}
             </h1>
             <p>
@@ -291,7 +291,7 @@ async function fullscreen() {
                 t(
                   room.settings.display_mode === "welcome"
                     ? "app.tagline"
-                    : "room.displayWaitingHelp",
+                    : room.settings.display_mode === "pinned" ? "room.notesWaitingHelp" : "room.displayWaitingHelp",
                 )
               }}
             </p>

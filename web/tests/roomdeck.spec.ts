@@ -15,6 +15,7 @@ test('bilingual multi-browser sharing, moderation, voting and export',async({bro
  await expect(page.locator('.content-card.photo')).toHaveCount(1);await page.locator('.content-card.photo').getByRole('button',{name:'Add to display',exact:true}).click();
  const paired=await (await post(`/rooms/${roomID}/display-session`,{})).json();
  const displayContext=await browser.newContext({baseURL,viewport:{width:1600,height:1000}});const display=await displayContext.newPage();await display.goto('/display#pair='+paired.token);await display.locator('#language').selectOption('zh');await expect(display.locator('.display-invitation')).toBeVisible();
+ await page.locator('.display-modes').getByRole('button',{name:'Notes & links',exact:true}).click();await expect(display.getByText('等待便签或链接加入上屏',{exact:true})).toBeVisible();
  await page.locator('.display-modes').getByRole('button',{name:'Photo slideshow',exact:true}).click();await expect(display.locator('.display-photo')).toBeVisible();
  const frozenSource=await display.locator('.display-photo').getAttribute('src');
  await page.getByRole('button',{name:'Pause slideshow',exact:true}).click();

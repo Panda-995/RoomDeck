@@ -212,7 +212,9 @@
     "selectPoll": "投票显示到大屏",
     "manage": "房间管理",
     "refreshExport": "重新生成最新内容",
-    "board": "画板"
+    "board": "画板",
+    "notesWaiting": "等待便签或链接加入上屏",
+    "notesWaitingHelp": "主持人可在便签或链接卡片上点击“加入上屏”。"
   },
   "settings": {
     "title": "房间设置",

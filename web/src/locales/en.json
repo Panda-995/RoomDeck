@@ -212,7 +212,9 @@
     "selectPoll": "Show poll on display",
     "manage": "Room management",
     "refreshExport": "Generate a fresh archive",
-    "board": "Board"
+    "board": "Board",
+    "notesWaiting": "Waiting for notes or links",
+    "notesWaitingHelp": "The host can choose “Add to display” on a note or link card."
   },
   "settings": {
     "title": "Room settings",
