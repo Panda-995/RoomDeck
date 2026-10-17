@@ -88,3 +88,9 @@ go run ./cmd/roomdeck
 
 
 新增：共同画板、限时你画我猜与按职责授权的协同主持。入口及部署说明见 [画板与协同主持](docs/BOARD-AND-COHOSTS.md)。
+
+---
+
+## 📄 许可证 / License
+
+本项目采用 [AGPL-3.0](LICENSE) 开源协议。
